@@ -15,6 +15,8 @@ class Sandbox extends EventEmitter {
   constructor(file, args, opts) {
     super()
 
+    validate(file, args, opts)
+
     const policy = normalize(opts)
     const env = environment(policy, opts.env)
     const cwd = path.resolve(typeof opts.cwd === 'string' ? opts.cwd : '/')
@@ -112,8 +114,6 @@ exports.spawn = function spawn(file, args, opts) {
   }
 
   if (!opts) opts = {}
-
-  validate(file, args, opts)
 
   return new Sandbox(file, args, opts)
 }

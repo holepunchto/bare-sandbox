@@ -3,7 +3,7 @@ const fs = require('bare-fs')
 const os = require('bare-os')
 const path = require('bare-path')
 const tcp = require('bare-tcp')
-const { spawn } = require('.')
+const { spawn, Sandbox } = require('.')
 
 const darwin = Bare.platform === 'darwin'
 const linux = Bare.platform === 'linux'
@@ -295,6 +295,12 @@ test('rejects strings that native code would cut short', (t) => {
     () => spawn(executable, { filesystem: { read: ['/tmp\0/x'] } }),
     /null characters/
   )
+})
+
+test('rejects strings that native code would cut short when constructed directly', (t) => {
+  t.exception.all(() => new Sandbox(executable, ['a\0b'], {}), /null characters/)
+  t.exception.all(() => new Sandbox(executable + '\0x', [], {}), /null characters/)
+  t.exception.all(() => new Sandbox(executable, [], { cwd: '/\0/x' }), /null characters/)
 })
 
 test('denies network access by default', async (t) => {

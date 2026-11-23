@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 #include <utf.h>
 #include <uv.h>
 
@@ -83,6 +84,12 @@ bare_sandbox__get_string(js_env_t *env, js_value_t *value, char **result) {
   if (err < 0) {
     free(str);
     return err;
+  }
+
+  if (strlen((char *) str) != len) {
+    free(str);
+    js_throw_type_error(env, NULL, "Expected a string without null characters");
+    return -1;
   }
 
   *result = (char *) str;
