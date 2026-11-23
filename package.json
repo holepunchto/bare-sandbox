@@ -1,6 +1,6 @@
 {
   "name": "bare-sandbox",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Process sandboxing for JavaScript",
   "exports": {
     "./package": "./package.json",
