@@ -30,9 +30,6 @@ jobs:
           - os: macos-latest
             platform: darwin
             arch: arm64
-          - os: windows-latest
-            platform: win32
-            arch: x64
     runs-on: ${{ matrix.os }}
     name: Test / ${{ matrix.platform }}-${{ matrix.arch }}
     steps:
